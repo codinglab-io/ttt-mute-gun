@@ -20,8 +20,6 @@ local damageOnShoot = CreateConVar("ttt_mutegun_damage", 1, {FCVAR_ARCHIVE, FCVA
     "How much damage it deals to the target?")
 
 --- Config logic
-local durationMessage = muteDuration:GetInt() > 0 and "for " .. muteDuration:GetInt() .. " seconds." or
-                            "for the whole round."
 
 local canBuy = {}
 if traitorCanBuy:GetBool() and detectiveCanBuy:GetBool() then
@@ -32,21 +30,25 @@ elseif detectiveCanBuy:GetBool() then
     canBuy = {ROLE_DETECTIVE}
 end
 
+local ammoCountMessage = "Has " .. ammoCount:GetInt() .. " shots."
+local whoCanHearMessage = shouldTraitorHearMuted:GetBool() and "Traitors can hear muted players." or
+                              "Traitors cannot hear muted players."
+local durationMessage = muteDuration:GetInt() > 0 and "Mutes the target for " .. muteDuration:GetInt() .. " seconds." or
+                            "Mutes the target for the whole round."
+
 --- SWEP Info
 if CLIENT then
     SWEP.PrintName = "Mute Gun"
     SWEP.Slot = 6
-
     SWEP.ViewModelFOV = 54
     SWEP.ViewModelFlip = false
-
     SWEP.Icon = "VGUI/ttt/icon_mute_gun"
+
     -- Text shown in the equip menu
     SWEP.EquipMenuData = {
         type = "Weapon",
-        -- if duration is 0, it will mute for the whole round
-        desc = "Shoot someone to mute them.\nOnly traitors can hear muted players.\nHas " .. ammoCount:GetInt() ..
-            " shots.\nMutes the target " .. durationMessage
+        desc = "Shoot someone to mute them.\n" .. ammoCountMessage .. "\n" .. durationMessage .. "\n" ..
+            whoCanHearMessage
     };
 end
 
@@ -82,7 +84,7 @@ local mutedPlayers = {}
 hook.Add("PlayerCanHearPlayersVoice", "HandlePlayerMute", function(listener, talker)
     -- If the listener is the traitor, can he hear muted players?
     if listener:IsTraitor() and shouldTraitorHearMuted:GetBool() then
-        return true
+        return true, true
     end
 
     -- If the talker is muted, return false to block their voice
