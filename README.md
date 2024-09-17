@@ -4,6 +4,12 @@
 
 ## A Gmod Trouble in Terrorist Town Addon
 
+**The better Mute Gun on the market.**
+
+Unlike other addons it mutes on the server so you cannot unmute yourself with console.
+
+You can set a multitude of parameters to customize gameplay / damages / duration / etc.
+
 A very simple and customizable, yet effective Traitor weapon:
 
 - Shooting a player mutes him and deal 1 dmg by default.
@@ -12,7 +18,7 @@ A very simple and customizable, yet effective Traitor weapon:
 
 - Muted players cannot speak in the text chat.
 
-- Muted players doesn't know they are muted, they can only guess.
+- Muted players doesn't know they are muted, they can only guess (by looking at their HP).
 
 ## Convars
 
